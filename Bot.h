@@ -5,9 +5,6 @@
 #ifndef IOBOT_BOT_H
 #define IOBOT_BOT_H
 
-
-#include <stdint-gcc.h>
-
 namespace IOBot {
 	/**
 	 * A code-running CPU, Memory, and peripherals that (will be) placed in the world.
