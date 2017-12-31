@@ -66,5 +66,16 @@ namespace IOBot {
 		void jmp(Bot& bot, Instruction& instruction){
 			bot.PC = instruction.a.get(bot);
 		}
+
+		void call(Bot& bot, Instruction& instruction){
+			bot.SP -= 2;
+			bot.setMemWord(bot.SP, bot.PC);
+			bot.PC = instruction.a.get(bot);
+		}
+
+		void ret(Bot& bot, Instruction& instruction){
+			bot.PC = bot.getMemWord(bot.SP);
+			bot.SP += 2;
+		}
 	}
 }
