@@ -5,10 +5,10 @@
 #include <stdexcept>
 #include <iostream>
 #include "Assembly.h"
-#include "Util.h"
-#include "flags.h"
+#include "../../../Util.h"
+#include "../../../flags.h"
 
-namespace IOBot {
+namespace IOBots{
 	/////////////
 	///Operand///
 	/////////////
@@ -222,12 +222,7 @@ namespace IOBot {
 #if IOBOTS_DEBUG
 			std::cout << "Interrupt 0x" << std::hex << instruction.a.get(bot) << std::endl;
 #endif
-			switch(instruction.a.get(bot)){
-				case 0x0:
-				std::cout << bot << std::endl;
-					break;
-				default: break;
-			}
+			bot.interrupt(instruction.a.get(bot));
 		}
 
 		void push(Bot &bot, Instruction &instruction) {

@@ -1,18 +1,18 @@
 #include <iostream>
 #include <unordered_map>
 #include <fstream>
-#include "Bot.h"
-#include "Assembly.h"
-#include "Assembler.h"
+#include "world/entity/bot/Bot.h"
+#include "world/entity/bot/Assembly.h"
+#include "world/entity/bot/Assembler.h"
 
 
 int main(){
 	std::vector<uint8_t> out;
 	std::ifstream in("../assembly.asm");
 	if(in.is_open()){
-		IOBot::Assembler::assemble(in, out);
+		IOBots::Assembler::assemble(in, out);
 		in.close();
-		IOBot::Bot b(0x10000);
+		IOBots::Bot b(0x10000);
 		b.loadProgram(out);
 		while(!b.HF)
 			b.tick();

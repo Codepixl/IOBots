@@ -5,9 +5,11 @@
 #ifndef IOBOT_BOT_H
 #define IOBOT_BOT_H
 
+#include "../../World.h"
+
 #define PROG_OFFSET 0x400
 
-namespace IOBot {
+namespace IOBots{
 	/**
 	 * A code-running CPU, Memory, and peripherals that (will be) placed in the world.
 	 *
@@ -26,6 +28,11 @@ namespace IOBot {
 	private:
 		int memSize;
 	public:
+		//Constants
+		static const uint16_t ENERGY_MOVE = 2;
+		static const uint16_t ENERGY_ROT = 1;
+
+		//CPU stuff
 		uint16_t A = 0;
 		uint16_t B = 0;
 		uint16_t C = 0;
@@ -38,6 +45,11 @@ namespace IOBot {
 		bool OF = false; //Overflow flag
 		bool HF = false;
 		uint8_t *mem;
+
+		//Bot stuff
+		Position pos;
+		uint16_t energy = 0xFFFF;
+		Heading heading = NORTH;
 
 		/**
 		 * Makes a new bot.
@@ -93,6 +105,19 @@ namespace IOBot {
 		 * @return Whether or not the program was successfully loaded.
 		 */
 		bool loadProgram(std::vector<uint8_t>& prog);
+
+		/**
+		 * Performs a hardware interrupt with id [interrupt].
+		 * @param interrupt The interrupt to perform.
+		 */
+		void interrupt(uint16_t interrupt);
+
+		/**
+		 * Moves [steps] steps.
+		 * @param steps The number of steps to move.
+		 * @return The number of steps moved. Might be less than [steps] if there wasn't enough energy.
+		 */
+		uint16_t move(uint16_t steps);
 	};
 
 	std::ostream& operator<<(std::ostream& os, Bot& bot);

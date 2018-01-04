@@ -7,13 +7,14 @@
 #include <vector>
 #include "Bot.h"
 #include "Assembly.h"
-#include "flags.h"
+#include "../../../flags.h"
+#include "../../World.h"
 
 #if IOBOTS_DEBUG
 #include "Assembler.h"
 #endif
 
-namespace IOBot{
+namespace IOBots{
 	Bot::Bot(int memSize) {
 		mem = new uint8_t[memSize] {0};
 		this->memSize = memSize;
@@ -50,7 +51,7 @@ namespace IOBot{
 		};
 
 		if(instruction.opcode > sizeof(OPCODES) / sizeof(OPCODES[0]))
-			throw new std::runtime_error("Invalid opcode "+std::to_string(instruction.opcode));
+			throw std::runtime_error("Invalid opcode "+std::to_string(instruction.opcode));
 
 		//Pointer to the byte at the end of the instruction
 		uint16_t valuePointer = PC + (uint16_t)1;
@@ -104,12 +105,48 @@ namespace IOBot{
 		return true;
 	}
 
+	void Bot::interrupt(uint16_t interrupt) {
+		//If insead of switch for separate scopes
+		if(interrupt == 0x0) { //Print debug info
+			std::cout << this << std::endl;
+		}else if(interrupt == 0x1){ /**TODO Hardware Query**/ }
+		else if(interrupt == 0x2){ //TODO Move
+			auto h = static_cast<Heading>(A);
+			if(NORTH <= h <= WEST && h != heading){
+				heading = h;
+				energy -= ENERGY_ROT;
+			}
+			move(B);
+		}
+	}
+
+	uint16_t Bot::move(uint16_t steps) {
+		if(steps > energy / ENERGY_MOVE)
+			steps = energy / ENERGY_MOVE;
+		switch(heading){
+			case NORTH:
+				pos.y += steps;
+				break;
+			case EAST:
+				pos.x += steps;
+				break;
+			case SOUTH:
+				pos.y -= steps;
+				break;
+			case WEST:
+				pos.x -= steps;
+				break;
+		}
+		energy -= steps * ENERGY_MOVE;
+		return steps;
+	}
+
 	std::ostream& operator<<(std::ostream& os, Bot& bot){
 		return os
-				<< std::hex
-				<< "Bot@0x" << (size_t)&bot << ":"
 				<< std::dec
+				<< "Bot@(" << bot.pos.x << "," << bot.pos.y << "):"
 				<< "\n\t" << bot.getMemSize() << " bytes mem"
+				<< "\n\t" << bot.energy << " energy"
 				<< std::hex
 				<< "\n\tA  = 0x" << bot.A
 				<< "\n\tB  = 0x" << bot.B

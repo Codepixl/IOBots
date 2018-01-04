@@ -9,7 +9,7 @@
 #include <string>
 #include "Bot.h"
 
-namespace IOBot {
+namespace IOBots{
 	/**
 	 * The type of an Operand.
 	 *
