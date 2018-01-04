@@ -33,4 +33,16 @@ namespace Util{
 			return std::stoi(str);
 		}
 	}
+
+	bool checkCF(uint32_t res) {
+		return static_cast<bool>(res & 0x10000);
+	}
+
+	bool checkSF(uint16_t res) {
+		return static_cast<bool>(res >> 15);
+	}
+
+	bool checkZF(uint16_t res) {
+		return !res;
+	}
 }

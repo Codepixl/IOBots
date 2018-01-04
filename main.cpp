@@ -13,11 +13,11 @@ int main(){
 		IOBot::Assembler::assemble(in, out);
 		in.close();
 		IOBot::Bot b(0x10000);
-		for(int i = 0; i < out.size(); i++)
-			b.mem[i] = out[i];
-		for(int i = 0; i < 20; i++)
-			b.step();
+		b.loadProgram(out);
+		while(!b.HF)
+			b.tick();
 		std::cout << b << std::endl;
+		std::cout << b.CF << std::endl;
 	}else{
 		std::cout << "File not opened." << std::endl;
 	}

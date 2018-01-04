@@ -6,6 +6,7 @@
 #define IOBOT_ASSEMBLY_H
 
 #include <cstdint>
+#include <string>
 #include "Bot.h"
 
 namespace IOBot {
@@ -82,6 +83,27 @@ namespace IOBot {
 		void jmp(Bot& bot, Instruction& instruction);
 		void call(Bot& bot, Instruction& instruction);
 		void ret(Bot& bot, Instruction& instruction);
+		void add(Bot& bot, Instruction& instruction);
+		void sub(Bot& bot, Instruction& instruction);
+		void mul(Bot& bot, Instruction& instruction);
+		void div(Bot& bot, Instruction& instruction);
+		void shl(Bot& bot, Instruction& instruction);
+		void shr(Bot& bot, Instruction& instruction);
+		void _and(Bot& bot, Instruction& instruction);
+		void _or(Bot& bot, Instruction& instruction);
+		void _xor(Bot& bot, Instruction& instruction);
+		void _not(Bot& bot, Instruction& instruction);
+		void cmp(Bot& bot, Instruction& instruction);
+		void jz(Bot& bot, Instruction& instruction);
+		void jnz(Bot& bot, Instruction& instruction);
+		void jl(Bot& bot, Instruction& instruction);
+		void jle(Bot& bot, Instruction& instruction);
+		void jg(Bot& bot, Instruction& instruction);
+		void jge(Bot& bot, Instruction& instruction);
+		void _int(Bot& bot, Instruction& instruction);
+		void push(Bot& bot, Instruction& instruction);
+		void pop(Bot& bot, Instruction& instruction);
+		void hlt(Bot& bot, Instruction& instruction);
 	}
 
 	/**
@@ -94,7 +116,28 @@ namespace IOBot {
 			Instructions::mov,
 			Instructions::jmp,
 			Instructions::call,
-			Instructions::ret
+			Instructions::ret,
+			Instructions::add,
+			Instructions::sub,
+			Instructions::mul,
+			Instructions::div,
+			Instructions::shl,
+			Instructions::shr,
+			Instructions::_and,
+			Instructions::_or,
+			Instructions::_xor,
+			Instructions::_not,
+			Instructions::cmp,
+			Instructions::jz,
+			Instructions::jnz,
+			Instructions::jl,
+			Instructions::jle,
+			Instructions::jg,
+			Instructions::jge,
+			Instructions::_int,
+			Instructions::push,
+			Instructions::pop,
+			Instructions::hlt
 	};
 
 	/**
@@ -105,7 +148,28 @@ namespace IOBot {
 			2, //MOV
 			1, //JMP
 			1, //CALL
-			0  //RET
+			0, //RET
+			2, //ADD
+			2, //SUB
+			2, //MUL
+			2, //DIV
+			2, //SHL
+			2, //SHR
+			2, //AND
+			2, //OR
+			2, //XOR
+			1, //NOT
+			2, //CMP
+			1, //JZ
+			1, //JNZ
+			1, //JL
+			1, //JLE
+			1, //JG
+			1, //JGE
+			1, //INT
+			1, //PUSH
+			1, //POP
+			0  //HLT
 	};
 }
 

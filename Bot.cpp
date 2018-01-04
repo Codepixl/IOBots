@@ -2,14 +2,14 @@
 // Created by aaron on 12/29/2017.
 //
 
-#define DEBUG true
-
 #include <iostream>
 #include <sstream>
+#include <vector>
 #include "Bot.h"
 #include "Assembly.h"
+#include "flags.h"
 
-#ifdef DEBUG
+#if IOBOTS_DEBUG
 #include "Assembler.h"
 #endif
 
@@ -25,12 +25,16 @@ namespace IOBot{
 	}
 
 	void Bot::setMemWord(int loc, uint16_t set) {
-		mem[loc] = static_cast<uint8_t>(set & 0xFF);
-		mem[loc+1] = static_cast<uint8_t>((set & 0xFF00) >> 8);
+		if(loc < memSize) {
+			mem[loc] = static_cast<uint8_t>(set & 0xFF);
+			mem[loc + 1] = static_cast<uint8_t>((set & 0xFF00) >> 8);
+		}
 	}
 
 	uint16_t Bot::getMemWord(int loc) {
-		return mem[loc] + (static_cast<uint16_t>(mem[loc+1]) << 8);
+		if(loc < memSize)
+			return mem[loc] + (static_cast<uint16_t>(mem[loc+1]) << 8);
+		return 0x0;
 	}
 
 	int Bot::getMemSize() {
@@ -44,6 +48,9 @@ namespace IOBot{
 				Operand(),
 				Operand()
 		};
+
+		if(instruction.opcode > sizeof(OPCODES) / sizeof(OPCODES[0]))
+			throw new std::runtime_error("Invalid opcode "+std::to_string(instruction.opcode));
 
 		//Pointer to the byte at the end of the instruction
 		uint16_t valuePointer = PC + (uint16_t)1;
@@ -65,7 +72,7 @@ namespace IOBot{
 			}
 		}
 
-#if DEBUG
+#if IOBOTS_DEBUG
 
 		std::cout
 				<< std::hex
@@ -83,6 +90,18 @@ namespace IOBot{
 
 		//Execute the instruction
 		OPCODES[instruction.opcode](*this, instruction);
+	}
+
+	void Bot::tick() {
+		if(!HF)
+			step();
+	}
+
+	bool Bot::loadProgram(std::vector<uint8_t> &prog) {
+		if(prog.size() > memSize - PROG_OFFSET) return false;
+		for(int i = 0; i < prog.size(); i++)
+			mem[i+PROG_OFFSET] = prog[i];
+		return true;
 	}
 
 	std::ostream& operator<<(std::ostream& os, Bot& bot){

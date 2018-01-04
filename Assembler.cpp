@@ -10,11 +10,8 @@
 #include <unordered_map>
 #include "Assembler.h"
 #include "Util.h"
+#include "Bot.h"
 
-/** TODO First pass that makes an std::vector of Instructions and calculates how many bytes they each are,
- * 		 so labels can be figured out, and instructions such as dw can be used.
- * 		 Then second pass that actually puts it all together.
- */
 void IOBot::Assembler::assemble(std::istream& in, std::vector<uint8_t>& out){
 	std::string line;
 	auto* instructions = new std::vector<Instruction>;
@@ -23,8 +20,10 @@ void IOBot::Assembler::assemble(std::istream& in, std::vector<uint8_t>& out){
 		uint16_t currentByte = 0;
 		while(std::getline(in, line)){
 			line = Util::trim(line); //Trim whitespace
+			if(line.empty())
+				continue;
 			if(line[line.size()-1] == ':'){ //Is label
-				labels->insert({line.substr(0, line.size()-1), currentByte}); //Add record for this label at currentByte
+				labels->insert({line.substr(0, line.size()-1), currentByte + PROG_OFFSET}); //Add record for this label at currentByte
 			}else{ //Is instruction
 				size_t spaceIndex = line.find(' '); //Find where instruction ends and operands begin
 				std::string instructionString, operands, op1, op2;
@@ -48,7 +47,7 @@ void IOBot::Assembler::assemble(std::istream& in, std::vector<uint8_t>& out){
 				instruction.opcode = 0xFF;
 
 				//Get opcode for instruction
-				for(uint8_t i = 0; i < sizeof(INSTRUCTIONS); i++){
+				for(uint8_t i = 0; i < (sizeof(INSTRUCTIONS) / sizeof(INSTRUCTIONS[0])); i++){
 					if(instructionString == INSTRUCTIONS[i]) instruction.opcode = i;
 				}
 				if(instruction.opcode == 0xFF)
@@ -59,6 +58,8 @@ void IOBot::Assembler::assemble(std::istream& in, std::vector<uint8_t>& out){
 				if(!op1.empty()) parseOperand(op1, instruction.a, labels, false);
 				if(!op2.empty()) parseOperand(op2, instruction.b, labels, false);
 				instruction.numOperands = (instruction.a.type != NONE) + (instruction.b.type != NONE);
+				if(instruction.numOperands != NUM_OPERANDS[instruction.opcode])
+					throw std::runtime_error("Wrong number of operands for "+instructionString);
 
 				instructions->push_back(instruction);
 
@@ -95,6 +96,8 @@ void IOBot::Assembler::assemble(std::istream& in, std::vector<uint8_t>& out){
 				}
 			}
 		}
+
+		out.push_back(0x19); //hlt
 	}catch(std::exception& e){
 		delete instructions;
 		delete labels;
@@ -116,11 +119,7 @@ void IOBot::Assembler::parseOperand(std::string operandStr, Operand& operand,
 		else{
 			operand.type = IMP;
 			if(secondPass){
-				auto label = labels->find(operandStr);
-				if(label != labels->end())
-					operand.value = label->second;
-				else
-					operand.value = static_cast<uint16_t>(Util::parseNumber(operandStr));
+				parseOperandNum(operandStr, operand, labels);
 			}else{
 				operand.str = "["+operandStr+"]";
 				operand.shouldReparse = true;
@@ -133,18 +132,23 @@ void IOBot::Assembler::parseOperand(std::string operandStr, Operand& operand,
 		else if(operandStr == "D") operand.type = D;
 		else{
 			operand.type = IM;
-			if(secondPass){
-				auto label = labels->find(operandStr);
-				if(label != labels->end())
-					operand.value = label->second;
-				else
-					operand.value = static_cast<uint16_t>(Util::parseNumber(operandStr));
+			if(secondPass){ //If it's the second pass, resolve the number/label. Else, mark it to be reparsed on the second pass.
+				parseOperandNum(operandStr, operand, labels);
 			}else{
 				operand.str = operandStr;
 				operand.shouldReparse = true;
 			}
 		}
 	}
+}
+
+void IOBot::Assembler::parseOperandNum(std::string operandStr, Operand& operand,
+									   std::unordered_map<std::string, uint16_t>* labels){
+	auto label = labels->find(operandStr);
+	if(label != labels->end())
+		operand.value = label->second;
+	else
+		operand.value = static_cast<uint16_t>(Util::parseNumber(operandStr));
 }
 
 

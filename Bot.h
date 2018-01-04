@@ -5,6 +5,8 @@
 #ifndef IOBOT_BOT_H
 #define IOBOT_BOT_H
 
+#define PROG_OFFSET 0x400
+
 namespace IOBot {
 	/**
 	 * A code-running CPU, Memory, and peripherals that (will be) placed in the world.
@@ -28,8 +30,13 @@ namespace IOBot {
 		uint16_t B = 0;
 		uint16_t C = 0;
 		uint16_t D = 0;
-		uint16_t PC = 0;
+		uint16_t PC = PROG_OFFSET;
 		uint16_t SP = 0;
+		bool CF = false; //Carry flag
+		bool ZF = false; //Zero flag
+		bool SF = false; //Sign flag
+		bool OF = false; //Overflow flag
+		bool HF = false;
 		uint8_t *mem;
 
 		/**
@@ -72,6 +79,20 @@ namespace IOBot {
 		 * As of now, every instruction is only one cycle.
 		 */
 		void step();
+
+		/**
+		 * Ticks the robot in the game world.
+		 *
+		 * This usually entails stepping the program (if !HF), and updating the robot's other things.
+		 */
+		void tick();
+
+		/**
+		 * Loads a program into memory. The program must fit into memory.
+		 * @param prog A vector of bytes containing the program.
+		 * @return Whether or not the program was successfully loaded.
+		 */
+		bool loadProgram(std::vector<uint8_t>& prog);
 	};
 
 	std::ostream& operator<<(std::ostream& os, Bot& bot);
