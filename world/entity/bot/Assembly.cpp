@@ -4,9 +4,10 @@
 
 #include <stdexcept>
 #include <iostream>
-#include "Assembly.h"
 #include "../../../Util.h"
 #include "../../../flags.h"
+#include "Bot.h"
+#include "Assembly.h"
 
 namespace IOBots{
 	/////////////
@@ -226,13 +227,11 @@ namespace IOBots{
 		}
 
 		void push(Bot &bot, Instruction &instruction) {
-			bot.SP -= 2;
-			bot.setMemWord(bot.SP, instruction.a.get(bot));
+			bot.push(instruction.a.get(bot));
 		}
 
 		void pop(Bot &bot, Instruction &instruction) {
-			instruction.a.set(bot, bot.getMemWord(bot.SP));
-			bot.SP += 2;
+			instruction.a.set(bot, bot.pop());
 		}
 
 		void hlt(Bot &bot, Instruction &instruction) {

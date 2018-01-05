@@ -10,7 +10,6 @@
 #include <unordered_map>
 #include "Assembler.h"
 #include "../../../Util.h"
-#include "Bot.h"
 
 void IOBots::Assembler::assemble(std::istream& in, std::vector<uint8_t>& out){
 	std::string line;
@@ -20,10 +19,30 @@ void IOBots::Assembler::assemble(std::istream& in, std::vector<uint8_t>& out){
 		uint16_t currentByte = 0;
 		while(std::getline(in, line)){
 			line = Util::trim(line); //Trim whitespace
-			if(line.empty())
+			if(line.empty() || line[0] == ';')
 				continue;
+
+			//Ignore comments
+			size_t comment_index = line.find(';');
+			if(comment_index != std::string::npos)
+				line = line.substr(0, comment_index);
+
 			if(line[line.size()-1] == ':'){ //Is label
 				labels->insert({line.substr(0, line.size()-1), currentByte + PROG_OFFSET}); //Add record for this label at currentByte
+			}else if(line.find(".define") == 0){ //Is define
+				if(line.size() < 8)
+					throw std::runtime_error("Invalid define");
+				line = line.substr(8);
+				line = Util::trim(line);
+				size_t space_index = line.find(' ');
+				if(space_index != std::string::npos){
+					std::string name = line.substr(0, space_index);
+					name = Util::trim(name);
+					std::string num = line.substr(space_index + 1);
+					num = Util::trim(num);
+					labels->insert({name, Util::parseNumber(num)}); //Add define to labels, no sense in making a separate list
+				}else
+					throw std::runtime_error("Invalid define");
 			}else{ //Is instruction
 				size_t spaceIndex = line.find(' '); //Find where instruction ends and operands begin
 				std::string instructionString, operands, op1, op2;

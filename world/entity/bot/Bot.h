@@ -6,8 +6,11 @@
 #define IOBOT_BOT_H
 
 #include "../../World.h"
+#include "hardware/Hardware.h"
+#include <vector>
 
 #define PROG_OFFSET 0x400
+#define HARDWARE_QUERY_OFFSET 0x0
 
 namespace IOBots{
 	/**
@@ -27,6 +30,8 @@ namespace IOBots{
 	class Bot {
 	private:
 		int memSize;
+		Hardware::Hardware* hardwareSlots[256] = { nullptr };
+		int numHardware = 0;
 	public:
 		//Constants
 		static const uint16_t ENERGY_MOVE = 2;
@@ -118,6 +123,32 @@ namespace IOBots{
 		 * @return The number of steps moved. Might be less than [steps] if there wasn't enough energy.
 		 */
 		uint16_t move(uint16_t steps);
+
+		/**
+		 * Adds hardware to the bot.
+		 * @param hardware The hardware to add.
+		 * @return If the hardware was added successfully.
+		 */
+		bool addHardware(Hardware::Hardware* hardware);
+
+		/**
+		 * Removes hardware from a slot.
+		 * @param slot The slot the hardware is in.
+		 * @return True if there was hardware in that slot and it was removed.
+		 */
+		bool removeHardware(uint8_t slot);
+
+		/**
+		 * Push a word to the stack.
+		 * @param word The word to push.
+		 */
+		void push(uint16_t word);
+
+		/**
+		 * Pop a word from a stack.
+		 * @return The popped word.
+		 */
+		uint16_t pop();
 	};
 
 	std::ostream& operator<<(std::ostream& os, Bot& bot);

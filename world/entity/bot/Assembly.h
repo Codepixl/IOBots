@@ -5,8 +5,6 @@
 #ifndef IOBOT_ASSEMBLY_H
 #define IOBOT_ASSEMBLY_H
 
-#include <cstdint>
-#include <string>
 #include "Bot.h"
 
 namespace IOBots{

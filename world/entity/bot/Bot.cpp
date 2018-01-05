@@ -4,14 +4,16 @@
 
 #include <iostream>
 #include <sstream>
-#include <vector>
 #include "Bot.h"
 #include "Assembly.h"
 #include "../../../flags.h"
 #include "../../World.h"
+#include <vector>
 
 #if IOBOTS_DEBUG
 #include "Assembler.h"
+#include "hardware/StorageHardware.h"
+
 #endif
 
 namespace IOBots{
@@ -19,6 +21,12 @@ namespace IOBots{
 		mem = new uint8_t[memSize] {0};
 		this->memSize = memSize;
 		this->SP = static_cast<uint16_t>(memSize - 1);
+		addHardware(new Hardware::Hardware);
+		addHardware(new Hardware::Hardware);
+		addHardware(new Hardware::Hardware);
+		addHardware(new Hardware::StorageHardware(0x10000));
+		removeHardware(0);
+		removeHardware(2);
 	}
 
 	Bot::~Bot() {
@@ -108,15 +116,31 @@ namespace IOBots{
 	void Bot::interrupt(uint16_t interrupt) {
 		//If insead of switch for separate scopes
 		if(interrupt == 0x0) { //Print debug info
-			std::cout << this << std::endl;
-		}else if(interrupt == 0x1){ /**TODO Hardware Query**/ }
-		else if(interrupt == 0x2){ //TODO Move
+			std::cout << *this << std::endl;
+		}else if(interrupt == 0x1){ //Hardware Query
+			A = static_cast<uint16_t>(numHardware);
+			uint16_t currentPointer = HARDWARE_QUERY_OFFSET;
+			for(auto& hardware : hardwareSlots){
+				if(hardware != nullptr){
+					/**
+					 * Since things are stored in little endian, when read by the program, the low byte will be the
+					 * HWID and the high byte will be the slot. (0xSSHH where S is slot and H is HWID)
+					 */
+					mem[currentPointer] = hardware->getHardwareID();
+					mem[currentPointer + 1] = hardware->getAttachedPort();
+					currentPointer += 2;
+				}
+			}
+		}else if(interrupt == 0x2){ //Move
 			auto h = static_cast<Heading>(A);
-			if(NORTH <= h <= WEST && h != heading){
+			if(h >= NORTH && h <= WEST && h != heading){
 				heading = h;
 				energy -= ENERGY_ROT;
 			}
 			move(B);
+		}else if(interrupt == 0x3){ //Hardware Interrupt
+			if(hardwareSlots[A] != nullptr)
+				hardwareSlots[A]->interrupt();
 		}
 	}
 
@@ -139,6 +163,42 @@ namespace IOBots{
 		}
 		energy -= steps * ENERGY_MOVE;
 		return steps;
+	}
+
+	bool Bot::addHardware(Hardware::Hardware* hardware){
+		if(numHardware < 256){
+			for(int i = 0; i < 256; i++){
+				if(hardwareSlots[i] == nullptr){
+					hardwareSlots[i] = hardware;
+					numHardware++;
+					hardware->setAttachedBot(this, static_cast<uint8_t>(i));
+					return true;
+				}
+			}
+			std::cerr << "Warning: numHardware was innacurate." << std::endl;
+			return false; //This should never happen, but just in case
+		}
+		return false;
+	}
+
+	bool Bot::removeHardware(uint8_t slot){
+		if(hardwareSlots[slot] != nullptr){
+			hardwareSlots[slot]->detach();
+			hardwareSlots[slot] = nullptr;
+			numHardware--;
+			return true;
+		}
+		return false;
+	}
+
+	void Bot::push(uint16_t word){
+		SP -= 2;
+		setMemWord(SP, word);
+	}
+
+	uint16_t Bot::pop(){
+		SP += 2;
+		return getMemWord(SP - 2);
 	}
 
 	std::ostream& operator<<(std::ostream& os, Bot& bot){
