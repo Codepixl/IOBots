@@ -1,0 +1,3 @@
+/Users/aaron/iobots/CMakeFiles/IOBots.dir
+/Users/aaron/iobots/CMakeFiles/ALL_BUILD.dir
+/Users/aaron/iobots/CMakeFiles/ZERO_CHECK.dir

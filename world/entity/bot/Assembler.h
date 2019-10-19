@@ -10,6 +10,10 @@
 #include <vector>
 #include <unordered_map>
 
+namespace IOBots {
+    class Operand;
+}
+
 namespace IOBots::Assembler{
 	void assemble(std::istream& in, std::vector<uint8_t>& out);
 	void parseOperand(std::string& operandStr, Operand& operand,

@@ -6,6 +6,7 @@
 #define IOBOT_ASSEMBLY_H
 
 #include "Bot.h"
+#include "Assembler.h"
 
 namespace IOBots{
 	/**
@@ -64,6 +65,8 @@ namespace IOBots{
 		 */
 		bool hasValue();
 	};
+
+    std::ostream& operator<<(std::ostream& os, Operand& operand);
 
 	/**
 	 * An instruction with operands.

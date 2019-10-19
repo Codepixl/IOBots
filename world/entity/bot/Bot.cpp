@@ -10,23 +10,19 @@
 #include "../../World.h"
 #include <vector>
 
-#if IOBOTS_DEBUG
 #include "Assembler.h"
 #include "hardware/StorageHardware.h"
-
-#endif
+#include "hardware/MovementHardware.h"
 
 namespace IOBots{
 	Bot::Bot(int memSize) {
 		mem = new uint8_t[memSize] {0};
 		this->memSize = memSize;
 		this->SP = static_cast<uint16_t>(memSize - 1);
-		addHardware(new Hardware::Hardware);
-		addHardware(new Hardware::Hardware);
-		addHardware(new Hardware::Hardware);
+        this->pos.x = 500;
+        this->pos.y = 500;
 		addHardware(new Hardware::StorageHardware(0x10000));
-		removeHardware(0);
-		removeHardware(2);
+        addHardware(new Hardware::MovementHardware);
 	}
 
 	Bot::~Bot() {
@@ -58,8 +54,10 @@ namespace IOBots{
 				Operand()
 		};
 
-		if(instruction.opcode > sizeof(OPCODES) / sizeof(OPCODES[0]))
+        if(instruction.opcode > sizeof(OPCODES) / sizeof(OPCODES[0])){
+            std::cout << *this << std::endl;
 			throw std::runtime_error("Invalid opcode "+std::to_string(instruction.opcode));
+        }
 
 		//Pointer to the byte at the end of the instruction
 		uint16_t valuePointer = PC + (uint16_t)1;
@@ -86,11 +84,13 @@ namespace IOBots{
 		std::cout
 				<< std::hex
 				<< Assembler::INSTRUCTIONS[instruction.opcode]
-				<< " [0x" << instruction.a.type
-				<< ":0x" << instruction.a.value
-				<< ", 0x" << instruction.b.type
-				<< ":0x" << instruction.b.value
-				<< "] @ 0x" << PC
+                << " " << instruction.a;
+        
+        if(instruction.b.type != NONE)
+            std::cout << ", " << instruction.b;
+        
+        std::cout
+                << " @ 0x" << PC
 				<< std::endl;
 
 #endif
@@ -126,21 +126,20 @@ namespace IOBots{
 					 * Since things are stored in little endian, when read by the program, the low byte will be the
 					 * HWID and the high byte will be the slot. (0xSSHH where S is slot and H is HWID)
 					 */
-					mem[currentPointer] = hardware->getHardwareID();
-					mem[currentPointer + 1] = hardware->getAttachedPort();
+                    uint16_t infoStruct = hardware->getHardwareID();
+                    infoStruct += hardware->getAttachedPort() << 8;
+                    setMemWord(currentPointer, infoStruct);
 					currentPointer += 2;
 				}
 			}
-		}else if(interrupt == 0x2){ //Move
-			auto h = static_cast<Heading>(A);
-			if(h >= NORTH && h <= WEST && h != heading){
-				heading = h;
-				energy -= ENERGY_ROT;
-			}
-			move(B);
-		}else if(interrupt == 0x3){ //Hardware Interrupt
+		}else if(interrupt == 0x2){ //Hardware Interrupt
 			if(hardwareSlots[A] != nullptr)
 				hardwareSlots[A]->interrupt();
+#if IOBOTS_DEBUG
+            else
+                std::cerr << "nullptr hardware called (0x" << std::hex << A << ")" << std::endl;
+            std::cout << "Hardware interrupt in slot 0x" << std::hex << A << " called" << std::endl;
+#endif
 		}
 	}
 

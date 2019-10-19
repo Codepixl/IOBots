@@ -60,6 +60,27 @@ namespace IOBots{
 		return type >= IM;
 	}
 
+    std::ostream& operator<<(std::ostream& os, Operand& operand) {
+        switch(operand.type) {
+            case NONE: return os << "NONE";
+            case A: return os << "A";
+            case B: return os << "B";
+            case C: return os << "C";
+            case D: return os << "D";
+            case AP: return os << "[A]";
+            case BP: return os << "[B]";
+            case CP: return os << "[C]";
+            case DP: return os << "[D]";
+            case IM: return os << "0x" << std::hex << operand.value;
+            case IMP: return os << "[0x" << std::hex << operand.value << "]";
+            case AIM: return os << "[ A + 0x" << std::hex << operand.value << "]";
+            case BIM: return os << "[ B + 0x" << std::hex << operand.value << "]";
+            case CIM: return os << "[ C + 0x" << std::hex << operand.value << "]";
+            case DIM: return os << "[ D + 0x" << std::hex << operand.value << "]";
+            case INVALID: return os << "INVALID";
+        }
+    }
+
 	namespace Instructions{
 		void nop(Bot& bot, Instruction& instruction){}
 
@@ -220,9 +241,6 @@ namespace IOBots{
 		}
 
 		void _int(Bot &bot, Instruction &instruction) {
-#if IOBOTS_DEBUG
-			std::cout << "Interrupt 0x" << std::hex << instruction.a.get(bot) << std::endl;
-#endif
 			bot.interrupt(instruction.a.get(bot));
 		}
 

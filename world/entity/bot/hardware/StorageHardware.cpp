@@ -51,7 +51,7 @@ void IOBots::Hardware::StorageHardware::interrupt(){
 			for(int i = 0; i < wordCount; i++){
 				attachedBot->setMemWord(botLoc + i * 2, getMemWord(loc + i * 2));
 			}
-
+            break;
 		}
 		case 3:{//Write many
 			uint16_t wordCount = attachedBot->pop();
@@ -60,6 +60,7 @@ void IOBots::Hardware::StorageHardware::interrupt(){
 			for(int i = 0; i < wordCount; i++){
 				setMemWord(loc + i * 2, attachedBot->getMemWord(botLoc + i * 2));
 			}
+            break;
 		}
 		default:{ break; }
 	}

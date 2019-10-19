@@ -112,7 +112,7 @@ namespace IOBots{
 		bool loadProgram(std::vector<uint8_t>& prog);
 
 		/**
-		 * Performs a hardware interrupt with id [interrupt].
+		 * Performs a software interrupt with id [interrupt].
 		 * @param interrupt The interrupt to perform.
 		 */
 		void interrupt(uint16_t interrupt);
