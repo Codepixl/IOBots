@@ -3,8 +3,8 @@
 //
 
 #include <iostream>
-#include "StorageHardware.h"
-#include "../Bot.h"
+#include "../../../../../include/world/entity/bot/hardware/StorageHardware.h"
+#include "../../../../../include/world/entity/bot/Bot.h"
 
 uint8_t IOBots::Hardware::StorageHardware::getHardwareID(){
 	return 0x1;

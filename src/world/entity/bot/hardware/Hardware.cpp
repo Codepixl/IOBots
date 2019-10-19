@@ -2,7 +2,7 @@
 // Created by Aaron on 1/4/18.
 //
 
-#include "Hardware.h"
+#include <world/entity/bot/hardware/Hardware.h>
 
 namespace IOBots::Hardware{
 	uint8_t Hardware::getHardwareID(){

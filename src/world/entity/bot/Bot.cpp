@@ -4,15 +4,15 @@
 
 #include <iostream>
 #include <sstream>
-#include "Bot.h"
-#include "Assembly.h"
-#include "../../../flags.h"
-#include "../../World.h"
+#include <world/entity/bot/Bot.h>
+#include <world/entity/bot/Assembly.h>
+#include <flags.h>
+#include <world/World.h>
 #include <vector>
 
-#include "Assembler.h"
-#include "hardware/StorageHardware.h"
-#include "hardware/MovementHardware.h"
+#include <world/entity/bot/Assembler.h>
+#include <world/entity/bot/hardware/StorageHardware.h>
+#include <world/entity/bot/hardware/MovementHardware.h>
 
 namespace IOBots{
 	Bot::Bot(int memSize) {

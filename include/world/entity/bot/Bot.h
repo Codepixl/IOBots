@@ -8,6 +8,7 @@
 #include "../../World.h"
 #include "hardware/Hardware.h"
 #include <vector>
+#include <ostream>
 
 #define PROG_OFFSET 0x400
 #define HARDWARE_QUERY_OFFSET 0x0

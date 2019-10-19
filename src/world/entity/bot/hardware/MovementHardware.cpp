@@ -5,9 +5,8 @@
 //  Created by Aaron on 10/16/19.
 //
 
-#include <iostream>
-#include "MovementHardware.h"
-#include "../Bot.h"
+#include <world/entity/bot/hardware/MovementHardware.h>
+#include <world/entity/bot/Bot.h>
 
 uint8_t IOBots::Hardware::MovementHardware::getHardwareID(){
     return 0x2;

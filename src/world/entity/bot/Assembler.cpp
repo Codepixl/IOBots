@@ -3,13 +3,10 @@
 //
 
 #include <iosfwd>
-#include <sstream>
-#include <iostream>
 #include <vector>
-#include <fstream>
 #include <unordered_map>
-#include "Assembler.h"
-#include "../../../Util.h"
+#include <world/entity/bot/Assembler.h>
+#include <Util.h>
 
 void IOBots::Assembler::assemble(std::istream& in, std::vector<uint8_t>& out){
 	std::string line;
