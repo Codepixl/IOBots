@@ -21,9 +21,13 @@ namespace IOBots{
 		this->SP = static_cast<uint16_t>(memSize - 1);
         this->pos.x = 500;
         this->pos.y = 500;
-		addHardware(new Hardware::StorageHardware(0x10000));
+        addHardware(new Hardware::StorageHardware(0x10000));
         addHardware(new Hardware::MovementHardware);
 	}
+
+    Bot::Bot(uint8_t *buffer, size_t buffer_size) {
+        this->deserialize(buffer, buffer_size);
+    }
 
 	Bot::~Bot() {
 		delete mem;
@@ -200,7 +204,90 @@ namespace IOBots{
 		return getMemWord(SP - 2);
 	}
 
-	std::ostream& operator<<(std::ostream& os, Bot& bot){
+    void Bot::serialize(uint8_t *buffer) {
+        auto* header = (BOT_HEADER*) buffer;
+        header->num_hardware = this->numHardware;
+        header->position = this->pos;
+        header->heading = this->heading;
+        header->energy = this->energy;
+        header->A = this->A;
+        header->B = this->B;
+        header->C = this->C;
+        header->D = this->D;
+        header->PC = this->PC;
+        header->SP = this->SP;
+        header->CF = this->CF;
+        header->ZF = this->ZF;
+        header->SF = this->SF;
+        header->OF = this->OF;
+        header->HF = this->HF;
+        header->mem_size = this->memSize;
+        header->body_size = calculateSerializedSize() - sizeof(BOT_HEADER);
+        header->magic = BOT_MAGIC;
+
+        buffer += sizeof(BOT_HEADER);
+        memcpy(buffer, mem, memSize);
+        buffer += memSize;
+
+        for(int i = 0; i < numHardware; i++) {
+            this->hardwareSlots[i]->serialize(buffer);
+            buffer += this->hardwareSlots[i]->calculateSerializedSize();
+        }
+    }
+
+    size_t Bot::calculateSerializedSize() {
+	    size_t ret = sizeof(BOT_HEADER) + memSize;
+        for(int i = 0; i < this->numHardware; i++) {
+            ret += this->hardwareSlots[i]->calculateSerializedSize();
+        }
+        return ret;
+    }
+
+    bool Bot::deserialize(uint8_t* buffer, size_t buffer_size) {
+	    auto* header = (BOT_HEADER*) buffer;
+
+	    if(header->magic != BOT_MAGIC){
+	        std::cerr << "Bot magic mismatch!" << std::endl;
+	        return false;
+	    }
+	    if(buffer_size - sizeof(BOT_HEADER) != header->body_size) {
+	        std::cerr << "Bot body size mismatch!" << std::endl;
+	        return false;
+	    }
+
+	    this->pos = header->position;
+	    this->energy = header->energy;
+	    this->heading = header->heading;
+        this->A = header->A;
+        this->B = header->B;
+        this->C = header->C;
+        this->D = header->D;
+        this->PC = header->PC;
+        this->SP = header->SP;
+        this->CF = header->CF;
+        this->ZF = header->ZF;
+        this->SF = header->SF;
+        this->OF = header->OF;
+        this->HF = header->HF;
+        this->memSize = header->mem_size;
+
+        buffer += sizeof(BOT_HEADER);
+        this->mem = new uint8_t[this->memSize];
+        memcpy(this->mem, buffer, this->memSize);
+        buffer += this->memSize;
+
+	    for(int i = 0; i < header->num_hardware; i++) {
+	        auto* hardwareHeader = (Hardware::HARDWARE_HEADER*) buffer;
+	        uint32_t hardware_size = hardwareHeader->size;
+
+	        addHardware(Hardware::deserializeHardware(buffer, hardware_size));
+	        buffer += hardware_size;
+	    }
+
+        return true;
+    }
+
+    std::ostream& operator<<(std::ostream& os, Bot& bot){
 		return os
 				<< std::dec
 				<< "Bot@(" << bot.pos.x << "," << bot.pos.y << "):"

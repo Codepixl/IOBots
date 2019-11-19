@@ -3,6 +3,10 @@
 //
 
 #include <world/entity/bot/hardware/Hardware.h>
+#include <exception>
+#include <iostream>
+#include <world/entity/bot/hardware/MovementHardware.h>
+#include <world/entity/bot/hardware/StorageHardware.h>
 
 namespace IOBots::Hardware{
 	uint8_t Hardware::getHardwareID(){
@@ -29,5 +33,45 @@ namespace IOBots::Hardware{
 	void Hardware::detach(){
 		attachedBot = nullptr;
 		attachedPort = 0;
+	}
+
+    size_t Hardware::calculateSerializedSize() {
+        return sizeof(HARDWARE_HEADER);
+    }
+
+    void Hardware::serialize(uint8_t *buffer) {
+        auto* header = (HARDWARE_HEADER*) buffer;
+        header->magic = HARDWARE_MAGIC;
+        header->hwid = this->getHardwareID();
+        header->size = this->calculateSerializedSize();
+    }
+
+    bool Hardware::deserialize(uint8_t *buffer, size_t buffer_size) {
+	    std::cerr << "Use IOBots::Hardware::deserializeHardware instead!" << std::endl;
+	    return false;
+    }
+
+    Hardware* deserializeHardware(uint8_t* buffer, size_t buffer_size) {
+	    Hardware* ret;
+        auto* header = (HARDWARE_HEADER*) buffer;
+        if(header->magic != HARDWARE_MAGIC) {
+            std::cerr << "Hardware magic mismatch!" << std::endl;
+            return nullptr;
+        }
+
+        switch(header->hwid) {
+            case MOVEMENT_HWID:
+                ret = new MovementHardware();
+                ret->deserialize(buffer, buffer_size);
+                break;
+            case STORAGE_HWID:
+                ret = new StorageHardware(buffer, buffer_size);
+                break;
+            default:
+                ret = nullptr;
+                break;
+        }
+
+        return ret;
 	}
 }

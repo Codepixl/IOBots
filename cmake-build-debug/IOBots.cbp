@@ -8,139 +8,141 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/home/aaron/CLionProjects/IOBots/cmake-build-debug"/>
+				<Option working_dir="/Users/aaron/CLionProjects/IOBots/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j16 -f &quot;/home/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j16 -f &quot;/home/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j16 -f &quot;/home/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/local/bin/gmake -j4 -f &quot;/Users/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/local/bin/gmake -j4 -f &quot;/Users/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j4 -f &quot;/Users/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j4 -f &quot;/Users/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/home/aaron/CLionProjects/IOBots/cmake-build-debug"/>
+				<Option working_dir="/Users/aaron/CLionProjects/IOBots/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j16 -f &quot;/home/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j16 -f &quot;/home/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j16 -f &quot;/home/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="IOBots">
-				<Option output="/home/aaron/CLionProjects/IOBots/cmake-build-debug/IOBots" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/aaron/CLionProjects/IOBots/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/home/aaron/CLionProjects/IOBots/include"/>
-					<Add directory="/usr/include/c++/8"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/c++/8"/>
-					<Add directory="/usr/include/c++/8/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/8/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/8/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j16 -f &quot;/home/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 IOBots"/>
-					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j16 -f &quot;/home/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j16 -f &quot;/home/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="IOBots/fast">
-				<Option output="/home/aaron/CLionProjects/IOBots/cmake-build-debug/IOBots" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/aaron/CLionProjects/IOBots/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/home/aaron/CLionProjects/IOBots/include"/>
-					<Add directory="/usr/include/c++/8"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/c++/8"/>
-					<Add directory="/usr/include/c++/8/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/8/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/8/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j16 -f &quot;/home/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 IOBots/fast"/>
-					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j16 -f &quot;/home/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j16 -f &quot;/home/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/local/bin/gmake -j4 -f &quot;/Users/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/local/bin/gmake -j4 -f &quot;/Users/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j4 -f &quot;/Users/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j4 -f &quot;/Users/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/home/aaron/CLionProjects/IOBots/cmake-build-debug"/>
+				<Option working_dir="/Users/aaron/CLionProjects/IOBots/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j16 -f &quot;/home/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j16 -f &quot;/home/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j16 -f &quot;/home/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/local/bin/gmake -j4 -f &quot;/Users/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/local/bin/gmake -j4 -f &quot;/Users/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j4 -f &quot;/Users/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j4 -f &quot;/Users/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="IOBots">
+				<Option output="/Users/aaron/CLionProjects/IOBots/cmake-build-debug/IOBots" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/aaron/CLionProjects/IOBots/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/aaron/CLionProjects/IOBots/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/11.0.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j4 -f &quot;/Users/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 IOBots"/>
+					<CompileFile command="/usr/local/bin/gmake -j4 -f &quot;/Users/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j4 -f &quot;/Users/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j4 -f &quot;/Users/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="IOBots/fast">
+				<Option output="/Users/aaron/CLionProjects/IOBots/cmake-build-debug/IOBots" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/aaron/CLionProjects/IOBots/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/aaron/CLionProjects/IOBots/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/11.0.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j4 -f &quot;/Users/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 IOBots/fast"/>
+					<CompileFile command="/usr/local/bin/gmake -j4 -f &quot;/Users/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j4 -f &quot;/Users/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j4 -f &quot;/Users/aaron/CLionProjects/IOBots/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/aaron/CLionProjects/IOBots/include/Util.h">
+		<Unit filename="/Users/aaron/CLionProjects/IOBots/include/flags.h">
 			<Option target="IOBots"/>
 		</Unit>
-		<Unit filename="/home/aaron/CLionProjects/IOBots/include/flags.h">
+		<Unit filename="/Users/aaron/CLionProjects/IOBots/include/util/Serializable.h">
 			<Option target="IOBots"/>
 		</Unit>
-		<Unit filename="/home/aaron/CLionProjects/IOBots/include/world/World.h">
+		<Unit filename="/Users/aaron/CLionProjects/IOBots/include/util/Util.h">
 			<Option target="IOBots"/>
 		</Unit>
-		<Unit filename="/home/aaron/CLionProjects/IOBots/include/world/entity/bot/Assembler.h">
+		<Unit filename="/Users/aaron/CLionProjects/IOBots/include/world/World.h">
 			<Option target="IOBots"/>
 		</Unit>
-		<Unit filename="/home/aaron/CLionProjects/IOBots/include/world/entity/bot/Assembly.h">
+		<Unit filename="/Users/aaron/CLionProjects/IOBots/include/world/entity/bot/Assembler.h">
 			<Option target="IOBots"/>
 		</Unit>
-		<Unit filename="/home/aaron/CLionProjects/IOBots/include/world/entity/bot/Bot.h">
+		<Unit filename="/Users/aaron/CLionProjects/IOBots/include/world/entity/bot/Assembly.h">
 			<Option target="IOBots"/>
 		</Unit>
-		<Unit filename="/home/aaron/CLionProjects/IOBots/include/world/entity/bot/hardware/Hardware.h">
+		<Unit filename="/Users/aaron/CLionProjects/IOBots/include/world/entity/bot/Bot.h">
 			<Option target="IOBots"/>
 		</Unit>
-		<Unit filename="/home/aaron/CLionProjects/IOBots/include/world/entity/bot/hardware/MovementHardware.h">
+		<Unit filename="/Users/aaron/CLionProjects/IOBots/include/world/entity/bot/hardware/Hardware.h">
 			<Option target="IOBots"/>
 		</Unit>
-		<Unit filename="/home/aaron/CLionProjects/IOBots/include/world/entity/bot/hardware/StorageHardware.h">
+		<Unit filename="/Users/aaron/CLionProjects/IOBots/include/world/entity/bot/hardware/MovementHardware.h">
 			<Option target="IOBots"/>
 		</Unit>
-		<Unit filename="/home/aaron/CLionProjects/IOBots/src/Util.cpp">
+		<Unit filename="/Users/aaron/CLionProjects/IOBots/include/world/entity/bot/hardware/StorageHardware.h">
 			<Option target="IOBots"/>
 		</Unit>
-		<Unit filename="/home/aaron/CLionProjects/IOBots/src/main.cpp">
+		<Unit filename="/Users/aaron/CLionProjects/IOBots/src/main.cpp">
 			<Option target="IOBots"/>
 		</Unit>
-		<Unit filename="/home/aaron/CLionProjects/IOBots/src/world/World.cpp">
+		<Unit filename="/Users/aaron/CLionProjects/IOBots/src/util/Serializable.cpp">
 			<Option target="IOBots"/>
 		</Unit>
-		<Unit filename="/home/aaron/CLionProjects/IOBots/src/world/entity/bot/Assembler.cpp">
+		<Unit filename="/Users/aaron/CLionProjects/IOBots/src/util/Util.cpp">
 			<Option target="IOBots"/>
 		</Unit>
-		<Unit filename="/home/aaron/CLionProjects/IOBots/src/world/entity/bot/Assembly.cpp">
+		<Unit filename="/Users/aaron/CLionProjects/IOBots/src/world/World.cpp">
 			<Option target="IOBots"/>
 		</Unit>
-		<Unit filename="/home/aaron/CLionProjects/IOBots/src/world/entity/bot/Bot.cpp">
+		<Unit filename="/Users/aaron/CLionProjects/IOBots/src/world/entity/bot/Assembler.cpp">
 			<Option target="IOBots"/>
 		</Unit>
-		<Unit filename="/home/aaron/CLionProjects/IOBots/src/world/entity/bot/hardware/Hardware.cpp">
+		<Unit filename="/Users/aaron/CLionProjects/IOBots/src/world/entity/bot/Assembly.cpp">
 			<Option target="IOBots"/>
 		</Unit>
-		<Unit filename="/home/aaron/CLionProjects/IOBots/src/world/entity/bot/hardware/MovementHardware.cpp">
+		<Unit filename="/Users/aaron/CLionProjects/IOBots/src/world/entity/bot/Bot.cpp">
 			<Option target="IOBots"/>
 		</Unit>
-		<Unit filename="/home/aaron/CLionProjects/IOBots/src/world/entity/bot/hardware/StorageHardware.cpp">
+		<Unit filename="/Users/aaron/CLionProjects/IOBots/src/world/entity/bot/hardware/Hardware.cpp">
 			<Option target="IOBots"/>
 		</Unit>
-		<Unit filename="/home/aaron/CLionProjects/IOBots/CMakeLists.txt">
+		<Unit filename="/Users/aaron/CLionProjects/IOBots/src/world/entity/bot/hardware/MovementHardware.cpp">
+			<Option target="IOBots"/>
+		</Unit>
+		<Unit filename="/Users/aaron/CLionProjects/IOBots/src/world/entity/bot/hardware/StorageHardware.cpp">
+			<Option target="IOBots"/>
+		</Unit>
+		<Unit filename="/Users/aaron/CLionProjects/IOBots/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

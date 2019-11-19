@@ -5,14 +5,30 @@
 #ifndef IOBOTS_HARDWARE_H
 #define IOBOTS_HARDWARE_H
 
+#define GENERIC_HWID 0x0
+#define STORAGE_HWID 0x1
+#define MOVEMENT_HWID 0x2
+#define HARDWARE_MAGIC (uint8_t) 0x420
+
 #include <cstdint>
+#include <util/Serializable.h>
 
 namespace IOBots{
 	class Bot;
 }
 
 namespace IOBots::Hardware{
-	class Hardware{
+
+    //Header struct for serialization
+    #pragma pack(push, 1)
+    struct HARDWARE_HEADER {
+        uint8_t magic;
+        uint8_t hwid;
+        uint32_t size; //Includes header
+    };
+    #pragma pack(pop)
+
+	class Hardware: public Serializable {
 	protected:
 		//Variables
 		Bot* attachedBot = nullptr;
@@ -20,6 +36,8 @@ namespace IOBots::Hardware{
 	public:
 		//Constants
 		static const uint16_t INVALID_HWID = 0;
+
+		Hardware() = default;
 
 		/**
 		 * Returns the hardware ID. 0 is an invalid ID. The ID identifies the type of hardware.
@@ -54,7 +72,14 @@ namespace IOBots::Hardware{
 		 * Sets the slot to 0 and bot to nullptr. DOES NOT DETACH IT FROM THE BOT. USE Bot::detachHardware FOR THAT.
 		 */
 		void detach();
+
+		/** Serialization **/
+        size_t calculateSerializedSize() override;
+        void serialize(uint8_t* buffer) override;
+        bool deserialize(uint8_t* buffer, size_t buffer_size) override;
 	};
+
+	Hardware* deserializeHardware(uint8_t* buffer, size_t buffer_size);
 }
 
 #endif //IOBOTS_HARDWARE_H

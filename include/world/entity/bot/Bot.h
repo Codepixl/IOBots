@@ -9,6 +9,7 @@
 #include "hardware/Hardware.h"
 #include <vector>
 #include <ostream>
+#include <util/Serializable.h>
 
 #define PROG_OFFSET 0x400
 #define HARDWARE_QUERY_OFFSET 0x0
@@ -28,12 +29,37 @@ namespace IOBots{
 	 * (Opcode) (Operand Descriptor, optional) (Operand 1 value, optional) (Operand 2 value, optional)
 	 * So, an instruction can be 1, 2, 4, or 6 bytes long.
 	 */
-	class Bot {
+	class Bot: public Serializable {
 	private:
 		int memSize;
 		Hardware::Hardware* hardwareSlots[256] = { nullptr };
 		int numHardware = 0;
 	public:
+	    //Header struct for serialization
+        #pragma pack(push, 1)
+        uint8_t BOT_MAGIC = 0x69;
+	    struct BOT_HEADER {
+	        uint8_t magic;
+	        uint8_t  num_hardware;
+	        Position position;
+	        Heading heading;
+	        uint16_t energy;
+            uint16_t A;
+            uint16_t B;
+            uint16_t C;
+            uint16_t D;
+            uint16_t PC;
+            uint16_t SP;
+            bool CF;
+            bool ZF;
+            bool SF;
+            bool OF;
+            bool HF;
+            uint32_t mem_size;
+            uint32_t body_size; //Doesn't include header
+	    };
+        #pragma pack(pop)
+
 		//Constants
 		static const uint16_t ENERGY_MOVE = 2;
 		static const uint16_t ENERGY_ROT = 1;
@@ -49,7 +75,7 @@ namespace IOBots{
 		bool ZF = false; //Zero flag
 		bool SF = false; //Sign flag
 		bool OF = false; //Overflow flag
-		bool HF = false;
+		bool HF = false; //Halt flag
 		uint8_t *mem;
 
 		//Bot stuff
@@ -65,6 +91,11 @@ namespace IOBots{
 
 		//Delete the default constructor
 		Bot() = delete;
+
+		/**
+		 * Deserializes a bot.
+		 */
+		 explicit Bot(uint8_t* buffer, size_t buffer_size);
 
 		/**
 		 * Frees up the bot's resources for use.
@@ -150,7 +181,11 @@ namespace IOBots{
 		 * @return The popped word.
 		 */
 		uint16_t pop();
-	};
+
+        size_t calculateSerializedSize() override;
+        void serialize(uint8_t* buffer) override;
+        bool deserialize(uint8_t* buffer, size_t buffer_size) override;
+    };
 
 	std::ostream& operator<<(std::ostream& os, Bot& bot);
 }

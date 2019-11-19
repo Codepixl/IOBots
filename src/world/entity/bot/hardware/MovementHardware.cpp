@@ -7,9 +7,10 @@
 
 #include <world/entity/bot/hardware/MovementHardware.h>
 #include <world/entity/bot/Bot.h>
+#include <iostream>
 
 uint8_t IOBots::Hardware::MovementHardware::getHardwareID(){
-    return 0x2;
+    return MOVEMENT_HWID;
 }
 
 IOBots::Hardware::MovementHardware::MovementHardware(){
@@ -78,4 +79,16 @@ void IOBots::Hardware::MovementHardware::interrupt(){
             }
             break;
     }
+}
+
+bool IOBots::Hardware::MovementHardware::deserialize(uint8_t *buffer, size_t buffer_size) {
+    return true;
+}
+
+void IOBots::Hardware::MovementHardware::serialize(uint8_t *buffer) {
+    Hardware::serialize(buffer);
+}
+
+size_t IOBots::Hardware::MovementHardware::calculateSerializedSize() {
+    return Hardware::calculateSerializedSize();
 }

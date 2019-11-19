@@ -18,9 +18,22 @@ int main(){
         std::cout << "Assembled! Running..." << std::endl;
         clock_t start_clock;
         start_clock = clock();
+
+        //Serialize and deserialize bot before running (essentially, make a copy)
+        auto *buffer = new uint8_t[b.calculateSerializedSize()];
+        b.serialize(buffer);
+        auto* deserializedBot = new IOBots::Bot(buffer, b.calculateSerializedSize());
+
+        //Run both bot and deserialized bot
 		while(!b.HF)
 			b.tick();
-        std::cout << "Finished running! (" << clock() - start_clock << " clocks) Final bot state:" << std::endl << b << std::endl;
+		while(!deserializedBot->HF)
+		    deserializedBot->tick();
+
+		//Print both bots so we can compare to see if they ended up the same
+        std::cout << "Finished running! (" << clock() - start_clock << " host CPU clocks) Final bot state:" << std::endl << b << std::endl;
+        std::cout << "Deserialized bot: " << std::endl;
+        std::cout << *deserializedBot << std::endl;
 	}else{
 		std::cout << "File not opened." << std::endl;
 	}

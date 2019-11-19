@@ -7,12 +7,16 @@
 #include "../../../../../include/world/entity/bot/Bot.h"
 
 uint8_t IOBots::Hardware::StorageHardware::getHardwareID(){
-	return 0x1;
+	return STORAGE_HWID;
 }
 
 IOBots::Hardware::StorageHardware::StorageHardware(int memSize){
 	mem = new uint8_t[memSize];
 	this->memSize = memSize;
+}
+
+IOBots::Hardware::StorageHardware::StorageHardware(uint8_t *buffer, size_t buffer_size) {
+    this->deserialize(buffer, buffer_size);
 }
 
 IOBots::Hardware::StorageHardware::~StorageHardware(){
@@ -64,4 +68,20 @@ void IOBots::Hardware::StorageHardware::interrupt(){
 		}
 		default:{ break; }
 	}
+}
+
+bool IOBots::Hardware::StorageHardware::deserialize(uint8_t *buffer, size_t buffer_size) {
+    auto* header = (HARDWARE_HEADER*) buffer;
+    this->memSize = header->size - sizeof(HARDWARE_HEADER);
+    this->mem = new uint8_t[this->memSize];
+}
+
+void IOBots::Hardware::StorageHardware::serialize(uint8_t *buffer) {
+    Hardware::serialize(buffer);
+    buffer += sizeof(HARDWARE_HEADER);
+    memcpy(buffer, this->mem, this->memSize);
+}
+
+size_t IOBots::Hardware::StorageHardware::calculateSerializedSize() {
+    return sizeof(HARDWARE_HEADER) + this->memSize;
 }

@@ -11,11 +11,10 @@
 #include "Hardware.h"
 
 namespace IOBots::Hardware{
+
     class MovementHardware: public Hardware {
     private:
     public:
-        uint8_t* mem;
-
         explicit MovementHardware();
         ~MovementHardware();
 
@@ -30,6 +29,10 @@ namespace IOBots::Hardware{
          *  Rotation: 0 = north, 1 = east, 2 = south, 3 = west.
         */
         void interrupt() override;
+
+        bool deserialize(uint8_t* buffer, size_t buffer_size) override;
+        void serialize(uint8_t* buffer) override;
+        size_t calculateSerializedSize() override;
     };
 
 }
