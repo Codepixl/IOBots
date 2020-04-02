@@ -4,23 +4,24 @@
 
 #include <iostream>
 #include <sstream>
-#include <world/entity/bot/Bot.h>
-#include <world/entity/bot/Assembly.h>
+#include <world/bot/Bot.h>
+#include <world/bot/Assembly.h>
 #include <flags.h>
 #include <world/World.h>
 #include <vector>
+#include <cstring>
 
-#include <world/entity/bot/Assembler.h>
-#include <world/entity/bot/hardware/StorageHardware.h>
-#include <world/entity/bot/hardware/MovementHardware.h>
+#include <world/bot/Assembler.h>
+#include <world/bot/hardware/StorageHardware.h>
+#include <world/bot/hardware/MovementHardware.h>
 
 namespace IOBots{
 	Bot::Bot(int memSize) {
 		mem = new uint8_t[memSize] {0};
 		this->memSize = memSize;
 		this->SP = static_cast<uint16_t>(memSize - 1);
-        this->pos.x = 500;
-        this->pos.y = 500;
+        this->pos.x = 0;
+        this->pos.y = 0;
         addHardware(new Hardware::StorageHardware(0x10000));
         addHardware(new Hardware::MovementHardware);
 	}

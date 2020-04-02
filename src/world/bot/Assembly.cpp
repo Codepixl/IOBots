@@ -6,8 +6,8 @@
 #include <iostream>
 #include <util/Util.h>
 #include <flags.h>
-#include <world/entity/bot/Bot.h>
-#include <world/entity/bot/Assembly.h>
+#include <world/bot/Bot.h>
+#include <world/bot/Assembly.h>
 
 namespace IOBots{
 	/////////////
@@ -32,6 +32,7 @@ namespace IOBots{
 			case CIM: return bot.getMemWord(bot.C + value);
 			case DIM: return bot.getMemWord(bot.D + value);
 			case INVALID: throw std::runtime_error("Attempted to get INVALID operand!");
+			default: return 0;
 		}
 	}
 
@@ -78,6 +79,7 @@ namespace IOBots{
             case CIM: return os << "[ C + 0x" << std::hex << operand.value << "]";
             case DIM: return os << "[ D + 0x" << std::hex << operand.value << "]";
             case INVALID: return os << "INVALID";
+			default: return os;
         }
     }
 

@@ -2,11 +2,11 @@
 // Created by Aaron on 1/4/18.
 //
 
-#include <world/entity/bot/hardware/Hardware.h>
+#include <world/bot/hardware/Hardware.h>
 #include <exception>
 #include <iostream>
-#include <world/entity/bot/hardware/MovementHardware.h>
-#include <world/entity/bot/hardware/StorageHardware.h>
+#include <world/bot/hardware/MovementHardware.h>
+#include <world/bot/hardware/StorageHardware.h>
 
 namespace IOBots::Hardware{
 	uint8_t Hardware::getHardwareID(){

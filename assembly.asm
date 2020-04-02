@@ -1,6 +1,6 @@
 ;A sample program that makes the bot go to the position defined at the top.
-.define TARGET_X 6969
-.define TARGET_Y 420
+.define TARGET_X 320
+.define TARGET_Y 240
 
 .define HWID_MOVEMENT 0x2
 .define INT_HWQ 0x1

@@ -3,8 +3,9 @@
 //
 
 #include <iostream>
-#include "../../../../../include/world/entity/bot/hardware/StorageHardware.h"
-#include "../../../../../include/world/entity/bot/Bot.h"
+#include <cstring>
+#include <world/bot/hardware/StorageHardware.h>
+#include <world/bot/Bot.h>
 
 uint8_t IOBots::Hardware::StorageHardware::getHardwareID(){
 	return STORAGE_HWID;
@@ -74,6 +75,7 @@ bool IOBots::Hardware::StorageHardware::deserialize(uint8_t *buffer, size_t buff
     auto* header = (HARDWARE_HEADER*) buffer;
     this->memSize = header->size - sizeof(HARDWARE_HEADER);
     this->mem = new uint8_t[this->memSize];
+	return true;
 }
 
 void IOBots::Hardware::StorageHardware::serialize(uint8_t *buffer) {

@@ -5,6 +5,8 @@
 #ifndef IOBOTS_WORLD_H
 #define IOBOTS_WORLD_H
 
+#include <stdint.h>
+
 namespace IOBots{
 
 	struct Position{

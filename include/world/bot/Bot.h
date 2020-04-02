@@ -5,11 +5,12 @@
 #ifndef IOBOT_BOT_H
 #define IOBOT_BOT_H
 
-#include "../../World.h"
+#include "../World.h"
 #include "hardware/Hardware.h"
 #include <vector>
 #include <ostream>
 #include <util/Serializable.h>
+#include <stdint.h>
 
 #define PROG_OFFSET 0x400
 #define HARDWARE_QUERY_OFFSET 0x0

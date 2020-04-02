@@ -5,7 +5,7 @@
 #include <iosfwd>
 #include <vector>
 #include <unordered_map>
-#include <world/entity/bot/Assembler.h>
+#include <world/bot/Assembler.h>
 #include <util/Util.h>
 
 void IOBots::Assembler::assemble(std::istream& in, std::vector<uint8_t>& out){
