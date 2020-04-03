@@ -11,7 +11,7 @@ You have a robot that spawns in a world with resources in it. You can control it
 ### License
 
 	IOBots - Command a fleet of robots to do your bidding.
-	Copyright (C) 2017 Codepixl
+	Copyright (C) 2020 Codepixl
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by

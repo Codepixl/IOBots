@@ -5,10 +5,15 @@
 #include <iosfwd>
 #include <vector>
 #include <unordered_map>
-#include <world/bot/Assembler.h>
-#include <util/Util.h>
+#include "Assembler.hpp"
+#include "../../util/Util.hpp"
 
-void IOBots::Assembler::assemble(std::istream& in, std::vector<uint8_t>& out){
+std::string Assembler::INSTRUCTIONS[] = {
+        "nop", "mov", "jmp", "call", "ret", "add", "sub", "mul", "div", "shl", "shr", "and", "or", "xor", "not",
+        "cmp", "jz", "jnz", "jl", "jle", "jg", "jge", "int", "push", "pop", "hlt"
+};
+
+void Assembler::assemble(std::istream& in, std::vector<uint8_t>& out){
 	std::string line;
 	auto* instructions = new std::vector<Instruction>;
 	auto* labels = new std::unordered_map<std::string, uint16_t>;
@@ -140,7 +145,7 @@ void IOBots::Assembler::assemble(std::istream& in, std::vector<uint8_t>& out){
 	delete labels;
 }
 
-void IOBots::Assembler::parseOperand(std::string& operandStr, Operand& operand,
+void Assembler::parseOperand(std::string& operandStr, Operand& operand,
 									std::unordered_map<std::string, uint16_t>* labels, bool secondPass){
 	operand.type = INVALID;
 	if(operandStr[0] == '[' && operandStr[operandStr.size() - 1] == ']'){ //Is a pointer
@@ -210,7 +215,7 @@ void IOBots::Assembler::parseOperand(std::string& operandStr, Operand& operand,
 	}
 }
 
-void IOBots::Assembler::parseOperandNum(std::string& operandStr, Operand& operand,
+void Assembler::parseOperandNum(std::string& operandStr, Operand& operand,
 									   std::unordered_map<std::string, uint16_t>* labels){
 	auto label = labels->find(operandStr);
 	if(label != labels->end())

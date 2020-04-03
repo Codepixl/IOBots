@@ -4,6 +4,6 @@ project(IOBots)
 set(CMAKE_CXX_STANDARD 17)
 
 find_package(SDL2 REQUIRED)
-include_directories(include/)
-add_executable(IOBots src/main.cpp src/world/bot/Bot.cpp include/world/bot/Bot.h src/world/bot/Assembly.cpp include/world/bot/Assembly.h src/world/bot/Assembler.cpp include/world/bot/Assembler.h src/util/Util.cpp include/util/Util.h include/flags.h src/world/World.cpp include/world/World.h src/world/bot/hardware/Hardware.cpp include/world/bot/hardware/Hardware.h src/world/bot/hardware/StorageHardware.cpp include/world/bot/hardware/StorageHardware.h src/world/bot/hardware/MovementHardware.cpp include/world/bot/hardware/MovementHardware.h src/util/Serializable.cpp include/util/Serializable.h src/graphics/graphics.cpp include/graphics/graphics.h src/game.cpp include/game.h)
+include_directories(src/)
+add_executable(IOBots src/main.cpp src/world/bot/Bot.cpp src/world/bot/Bot.hpp src/world/bot/Assembly.cpp src/world/bot/Assembly.hpp src/world/bot/Assembler.cpp src/world/bot/Assembler.hpp src/util/Util.cpp src/util/Util.hpp src/flags.hpp src/world/World.cpp src/world/World.hpp src/world/bot/hardware/Hardware.cpp src/world/bot/hardware/Hardware.hpp src/world/bot/hardware/StorageHardware.cpp src/world/bot/hardware/StorageHardware.hpp src/world/bot/hardware/MovementHardware.cpp src/world/bot/hardware/MovementHardware.hpp src/util/Serializable.cpp src/util/Serializable.hpp src/graphics/Renderer.cpp src/graphics/Renderer.hpp src/IOBots.cpp src/IOBots.hpp)
 target_link_libraries(IOBots SDL2::SDL2)

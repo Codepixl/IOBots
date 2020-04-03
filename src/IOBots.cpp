@@ -1,23 +1,20 @@
-#include <game.h>
-#include <SDL2/SDL.h>
-#include <graphics/graphics.h>
-#include <ctime>
+#include "IOBots.hpp"
 
-using namespace IOBots;
 
 Bot IOBots::bot(0x10000);
-double IOBots::deltaTime = 0.0;
+double IOBots::deltaTime = 0;
+Renderer IOBots::renderer = Renderer();
 
 void IOBots::start(){
 	timespec startTime, endTime;
-	if(Graphics::initGraphics()){
+	if(renderer.init()){
 		while(pollEvents()) {
 			clock_gettime(CLOCK_REALTIME, &startTime);
 			loop();
 			clock_gettime(CLOCK_REALTIME, &endTime);
 			deltaTime = endTime.tv_sec - startTime.tv_sec + (endTime.tv_nsec - startTime.tv_nsec) / 1000000000.;
 		}
-		Graphics::cleanupGraphics();
+		renderer.cleanup();
 	}
 }
 
@@ -38,5 +35,5 @@ void IOBots::loop(){
 		bot.tick();
 		tickTimer = 0;
 	}
-	Graphics::draw();
+	renderer.draw();
 }

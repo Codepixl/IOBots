@@ -4,40 +4,40 @@
 
 #include <iostream>
 #include <cstring>
-#include <world/bot/hardware/StorageHardware.h>
-#include <world/bot/Bot.h>
+#include "StorageHardware.hpp"
+#include "../Bot.hpp"
 
-uint8_t IOBots::Hardware::StorageHardware::getHardwareID(){
+uint8_t StorageHardware::getHardwareID(){
 	return STORAGE_HWID;
 }
 
-IOBots::Hardware::StorageHardware::StorageHardware(int memSize){
+StorageHardware::StorageHardware(int memSize){
 	mem = new uint8_t[memSize];
 	this->memSize = memSize;
 }
 
-IOBots::Hardware::StorageHardware::StorageHardware(uint8_t *buffer, size_t buffer_size) {
+StorageHardware::StorageHardware(uint8_t *buffer, size_t buffer_size) {
     this->deserialize(buffer, buffer_size);
 }
 
-IOBots::Hardware::StorageHardware::~StorageHardware(){
+StorageHardware::~StorageHardware(){
 	delete mem;
 }
 
-void IOBots::Hardware::StorageHardware::setMemWord(int loc, uint16_t set) {
+void StorageHardware::setMemWord(int loc, uint16_t set) {
 	if(loc < memSize) {
 		mem[loc] = static_cast<uint8_t>(set & 0xFF);
 		mem[loc + 1] = static_cast<uint8_t>((set & 0xFF00) >> 8);
 	}
 }
 
-uint16_t IOBots::Hardware::StorageHardware::getMemWord(int loc) {
+uint16_t StorageHardware::getMemWord(int loc) {
 	if(loc < memSize)
 		return mem[loc] + (static_cast<uint16_t>(mem[loc+1]) << 8);
 	return 0x0;
 }
 
-void IOBots::Hardware::StorageHardware::interrupt(){
+void StorageHardware::interrupt(){
 	switch(attachedBot->B){
 		case 0:{//Read
 			attachedBot->push(getMemWord(attachedBot->pop()));
@@ -71,19 +71,19 @@ void IOBots::Hardware::StorageHardware::interrupt(){
 	}
 }
 
-bool IOBots::Hardware::StorageHardware::deserialize(uint8_t *buffer, size_t buffer_size) {
+bool StorageHardware::deserialize(uint8_t *buffer, size_t buffer_size) {
     auto* header = (HARDWARE_HEADER*) buffer;
     this->memSize = header->size - sizeof(HARDWARE_HEADER);
     this->mem = new uint8_t[this->memSize];
 	return true;
 }
 
-void IOBots::Hardware::StorageHardware::serialize(uint8_t *buffer) {
+void StorageHardware::serialize(uint8_t *buffer) {
     Hardware::serialize(buffer);
     buffer += sizeof(HARDWARE_HEADER);
     memcpy(buffer, this->mem, this->memSize);
 }
 
-size_t IOBots::Hardware::StorageHardware::calculateSerializedSize() {
+size_t StorageHardware::calculateSerializedSize() {
     return sizeof(HARDWARE_HEADER) + this->memSize;
 }

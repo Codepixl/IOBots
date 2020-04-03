@@ -2,7 +2,7 @@
 // Created by aaron on 12/29/2017.
 //
 
-#include <util/Util.h>
+#include "Util.hpp"
 
 namespace Util{
 	std::string& ltrim(std::string& str, const std::string& chars){

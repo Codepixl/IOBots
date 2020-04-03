@@ -5,21 +5,21 @@
 //  Created by Aaron on 10/16/19.
 //
 
-#include <world/bot/hardware/MovementHardware.h>
-#include <world/bot/Bot.h>
+#include "MovementHardware.hpp"
+#include "../Bot.hpp"
 #include <iostream>
 
-uint8_t IOBots::Hardware::MovementHardware::getHardwareID(){
+uint8_t MovementHardware::getHardwareID(){
     return MOVEMENT_HWID;
 }
 
-IOBots::Hardware::MovementHardware::MovementHardware(){
+MovementHardware::MovementHardware(){
 }
 
-IOBots::Hardware::MovementHardware::~MovementHardware(){
+MovementHardware::~MovementHardware(){
 }
 
-void IOBots::Hardware::MovementHardware::interrupt(){
+void MovementHardware::interrupt(){
     switch(attachedBot->B) {
         //Move
         case 0:
@@ -81,14 +81,14 @@ void IOBots::Hardware::MovementHardware::interrupt(){
     }
 }
 
-bool IOBots::Hardware::MovementHardware::deserialize(uint8_t *buffer, size_t buffer_size) {
+bool MovementHardware::deserialize(uint8_t *buffer, size_t buffer_size) {
     return true;
 }
 
-void IOBots::Hardware::MovementHardware::serialize(uint8_t *buffer) {
+void MovementHardware::serialize(uint8_t *buffer) {
     Hardware::serialize(buffer);
 }
 
-size_t IOBots::Hardware::MovementHardware::calculateSerializedSize() {
+size_t MovementHardware::calculateSerializedSize() {
     return Hardware::calculateSerializedSize();
 }

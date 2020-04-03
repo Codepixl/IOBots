@@ -1,11 +1,14 @@
-#include <graphics/graphics.h>
-#include <game.h>
+#include "Renderer.hpp"
+#include "../IOBots.hpp"
 
-SDL_Window* IOBots::Graphics::window = NULL;
-SDL_Surface* IOBots::Graphics::screenSurface = NULL;
-SDL_Renderer* IOBots::Graphics::renderer = NULL;
+Renderer::Renderer() {
+}
 
-bool IOBots::Graphics::initGraphics(){
+Renderer::~Renderer() {
+    cleanup();
+}
+
+bool Renderer::init() {
 	if(SDL_Init(SDL_INIT_VIDEO) < 0){
 		fprintf(stderr, "Couldn't init sdl2: %s\n", SDL_GetError());
 		return false;
@@ -22,11 +25,11 @@ bool IOBots::Graphics::initGraphics(){
 	return true;
 }
 
-void IOBots::Graphics::cleanupGraphics(){
+void Renderer::cleanup(){
 	SDL_Quit();
 }
 
-void IOBots::Graphics::draw(){
+void Renderer::draw(){
 	SDL_SetRenderDrawColor(renderer, 20, 20, 20, 255);
 	SDL_RenderClear(renderer);
 	SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
@@ -39,7 +42,7 @@ void IOBots::Graphics::draw(){
 	}
 
 	SDL_SetRenderDrawColor(renderer, 200, 50, 50, 200);
-	SDL_Rect rect = {bot.pos.x - 5, bot.pos.y - 5, 10, 10};
+	SDL_Rect rect = {IOBots::bot.pos.x - 5, IOBots::bot.pos.y - 5, 10, 10};
 	SDL_RenderFillRect(renderer, &rect);
 
 	SDL_RenderPresent(renderer);

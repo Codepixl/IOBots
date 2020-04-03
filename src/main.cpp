@@ -1,10 +1,10 @@
 #include <iostream>
 #include <unordered_map>
 #include <fstream>
-#include <world/bot/Bot.h>
-#include <world/bot/Assembly.h>
-#include <world/bot/Assembler.h>
-#include <game.h>
+#include "world/bot/Bot.hpp"
+#include "world/bot/Assembly.hpp"
+#include "world/bot/Assembler.hpp"
+#include "IOBots.hpp"
 
 
 int main(int argc, char* argv[]){
@@ -18,7 +18,7 @@ int main(int argc, char* argv[]){
 		
 	if(in.is_open()){
         std::cout << "Assembling assembly.asm..." << std::endl;
-		IOBots::Assembler::assemble(in, out);
+		Assembler::assemble(in, out);
 		in.close();
 		IOBots::bot.loadProgram(out);
         std::cout << "Assembled! Starting game..." << std::endl;
