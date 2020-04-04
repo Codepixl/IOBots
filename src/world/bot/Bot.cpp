@@ -53,14 +53,14 @@ int Bot::getMemSize() {
 }
 
 void Bot::step() {
-    Instruction instruction{
+    Instruction instruction {
             mem[PC],
             NUM_OPERANDS[mem[PC]],
             Operand(),
             Operand()
     };
 
-    if(instruction.opcode > sizeof(OPCODES) / sizeof(OPCODES[0])){
+    if(instruction.opcode > sizeof(OPCODES) / sizeof(OPCODES[0])) {
         std::cout << *this << std::endl;
         throw std::runtime_error("Invalid opcode "+std::to_string(instruction.opcode));
     }
@@ -69,17 +69,17 @@ void Bot::step() {
     uint16_t valuePointer = PC + (uint16_t)1;
 
     //Has at least one operand
-    if(instruction.numOperands > 0){
+    if(instruction.numOperands > 0) {
         instruction.a.type = static_cast<OperandType>(mem[PC + 1] & 0x0F);
-        if(instruction.a.hasValue()){
+        if(instruction.a.hasValue()) {
             valuePointer += 2;
             instruction.a.value = getMemWord(valuePointer-1);
         }
     }
     //Has two operands
-    if(instruction.numOperands == 2){
+    if(instruction.numOperands == 2) {
         instruction.b.type = static_cast<OperandType>((mem[PC+1] & 0xF0) >> 4);
-        if(instruction.b.hasValue()){
+        if(instruction.b.hasValue()) {
             valuePointer += 2;
             instruction.b.value = getMemWord(valuePointer-1);
         }

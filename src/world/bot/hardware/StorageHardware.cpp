@@ -40,28 +40,28 @@ uint16_t StorageHardware::getMemWord(int loc) {
 void StorageHardware::interrupt(){
 	switch(attachedBot->A){
 		case 0:{//Read
-			attachedBot->push(getMemWord(attachedBot->pop()));
+			attachedBot->push(getMemWord(attachedBot->B));
 			break;
 		}
 		case 1:{//Write
-			uint16_t loc = attachedBot->pop();
-			uint16_t word = attachedBot->pop();
+			uint16_t loc = attachedBot->B;
+			uint16_t word = attachedBot->C;
 			setMemWord(loc, word);
 			break;
 		}
 		case 2:{//Read many
-			uint16_t wordCount = attachedBot->pop();
-			uint16_t loc = attachedBot->pop();
-			uint16_t botLoc = attachedBot->pop();
+			uint16_t loc = attachedBot->B;
+            uint16_t wordCount = attachedBot->C;
+			uint16_t botLoc = attachedBot->D;
 			for(int i = 0; i < wordCount; i++){
 				attachedBot->setMemWord(botLoc + i * 2, getMemWord(loc + i * 2));
 			}
             break;
 		}
 		case 3:{//Write many
-			uint16_t wordCount = attachedBot->pop();
-			uint16_t loc = attachedBot->pop();
-			uint16_t botLoc = attachedBot->pop();
+            uint16_t loc = attachedBot->B;
+			uint16_t wordCount = attachedBot->C;
+			uint16_t botLoc = attachedBot->D;
 			for(int i = 0; i < wordCount; i++){
 				setMemWord(loc + i * 2, attachedBot->getMemWord(botLoc + i * 2));
 			}

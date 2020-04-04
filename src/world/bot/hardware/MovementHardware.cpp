@@ -65,26 +65,12 @@ void MovementHardware::interrupt(){
                 attachedBot->heading = static_cast<Heading>(attachedBot->B);
             }
             break;
-        //Query position & rotation
+        //Query position & Rotation
         case 4:
-            attachedBot->push(attachedBot->pos.x);
-            attachedBot->push(attachedBot->pos.y);
-            switch(attachedBot->heading) {
-                case NORTH:
-                    attachedBot->push(0);
-                    break;
-                case EAST:
-                    attachedBot->push(1);
-                    break;
-                case SOUTH:
-                    attachedBot->push(2);
-                    break;
-                case WEST:
-                    attachedBot->push(3);
-                    break;
-            }
+            attachedBot->B = attachedBot->pos.x;
+            attachedBot->C = attachedBot->pos.y;
+            attachedBot->D = attachedBot->heading;
             break;
-
     }
 }
 

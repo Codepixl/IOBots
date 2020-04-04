@@ -16,11 +16,10 @@
 .define KEY_DOWN     0x52
 
 loop:
-int INT_KEYBOARD ;Query the keyboard for a keypress
-cmp B, 0
-jz loop          ;Go back to the beginning of the loop if it's 0 (no keypress)
 
-mov A, ROTATE
+int INT_KEYBOARD ;Query the keyboard for a keypress
+cmp B, 0         ;Compare the keycode to 0
+jz loop          ;Go back to the beginning of the loop if it's 0 (no keypress)
 
 down:
 cmp B, KEY_DOWN
