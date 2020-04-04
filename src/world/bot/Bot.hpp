@@ -5,12 +5,13 @@
 #ifndef IOBOT_BOT_H
 #define IOBOT_BOT_H
 
-#include "../World.hpp"
+#include "world/World.hpp"
 #include "hardware/Hardware.hpp"
 #include <vector>
 #include <ostream>
-#include "../../util/Serializable.hpp"
+#include "util/Serializable.hpp"
 #include <stdint.h>
+#include <SDL2/SDL.h>
 
 #define PROG_OFFSET 0x400
 #define HARDWARE_QUERY_OFFSET 0x0
@@ -43,7 +44,7 @@ public:
 	uint8_t BOT_MAGIC = 0x69;
 	struct BOT_HEADER {
 		uint8_t magic;
-		uint8_t  num_hardware;
+		uint8_t num_hardware;
 		Position position;
 		Heading heading;
 		uint16_t energy;
@@ -174,6 +175,13 @@ public:
 	bool removeHardware(uint8_t slot);
 
 	/**
+	 * Gets the hardware in a slot.
+	 * @param slot The slot to get the hardware in.
+	 * @return The hardware. nullptr if no hardware in that slot.
+	 */
+	 Hardware* getHardware(uint8_t slot);
+
+	/**
 	 * Push a word to the stack.
 	 * @param word The word to push.
 	 */
@@ -184,6 +192,9 @@ public:
 	 * @return The popped word.
 	 */
 	uint16_t pop();
+
+    ///Renders the bot.
+    void render(SDL_Renderer* renderer);
 
 	size_t calculateSerializedSize() override;
 	void serialize(uint8_t* buffer) override;

@@ -38,7 +38,7 @@ uint16_t StorageHardware::getMemWord(int loc) {
 }
 
 void StorageHardware::interrupt(){
-	switch(attachedBot->B){
+	switch(attachedBot->A){
 		case 0:{//Read
 			attachedBot->push(getMemWord(attachedBot->pop()));
 			break;

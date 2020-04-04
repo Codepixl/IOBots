@@ -8,6 +8,9 @@
 #include <stdio.h>
 #include <stdint.h>
 
+/**
+ * A class that can be serialized into bytes and deserialized from bytes.
+ */
 class Serializable {
     /**
      * Calculate the size of the serializable, in bytes.

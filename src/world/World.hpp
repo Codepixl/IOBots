@@ -7,11 +7,17 @@
 
 #include <stdint.h>
 
+/**
+ * A struct defining an unsigned x and y position.
+ */
 struct Position {
     uint16_t x = 0;
     uint16_t y = 0;
 };
 
+/**
+ * An enum with the four cardinal directions.
+ */
 enum Heading {
     NORTH = 0,
     EAST = 1,

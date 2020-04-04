@@ -8,6 +8,7 @@
 #define GENERIC_HWID 0x0
 #define STORAGE_HWID 0x1
 #define MOVEMENT_HWID 0x2
+#define KEYBOARD_HWID 0x3
 #define HARDWARE_MAGIC (uint8_t) 0x420
 
 #include <cstdint>
@@ -37,7 +38,8 @@ public:
     Hardware() = default;
 
     /**
-     * Returns the hardware ID. 0 is an invalid ID. The ID identifies the type of hardware.
+     * Returns the hardware ID. 0 is an invalid ID. The ID identifies the type of hardware
+     * This is used for the interrupt by default.
      * @return The hardware ID. THIS SHOULD BE THE SAME FOR ALL INSTANCES.
      */
     virtual uint8_t getHardwareID();

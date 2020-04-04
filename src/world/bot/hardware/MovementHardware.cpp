@@ -20,7 +20,7 @@ MovementHardware::~MovementHardware(){
 }
 
 void MovementHardware::interrupt(){
-    switch(attachedBot->B) {
+    switch(attachedBot->A) {
         //Move
         case 0:
             attachedBot->move(1);
@@ -59,8 +59,14 @@ void MovementHardware::interrupt(){
                     break;
             }
             break;
-        //Query position & rotation
+        //Set rotation
         case 3:
+            if(attachedBot->B < 4){
+                attachedBot->heading = static_cast<Heading>(attachedBot->B);
+            }
+            break;
+        //Query position & rotation
+        case 4:
             attachedBot->push(attachedBot->pos.x);
             attachedBot->push(attachedBot->pos.y);
             switch(attachedBot->heading) {
@@ -78,6 +84,7 @@ void MovementHardware::interrupt(){
                     break;
             }
             break;
+
     }
 }
 

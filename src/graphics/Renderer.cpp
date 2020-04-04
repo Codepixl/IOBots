@@ -15,11 +15,11 @@ bool Renderer::init() {
 	}
 
 	SDL_CreateWindowAndRenderer(640, 480, 0, &window, &renderer);
-
 	if (window == NULL || renderer == NULL) {
 		fprintf(stderr, "could not create window or renderer: %s\n", SDL_GetError());
 		return false;
 	}
+    SDL_SetWindowTitle(window, "IOBots");
 
 	screenSurface = SDL_GetWindowSurface(window);
 	return true;
@@ -32,7 +32,7 @@ void Renderer::cleanup(){
 void Renderer::draw(){
 	SDL_SetRenderDrawColor(renderer, 20, 20, 20, 255);
 	SDL_RenderClear(renderer);
-	SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
+	SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
 
 	for(int x = 0; x < 640; x += 20) {
 		SDL_RenderDrawLine(renderer, x, 0, x, 480);
@@ -41,9 +41,7 @@ void Renderer::draw(){
 		SDL_RenderDrawLine(renderer, 0, y, 640, y);
 	}
 
-	SDL_SetRenderDrawColor(renderer, 200, 50, 50, 200);
-	SDL_Rect rect = {IOBots::bot.pos.x - 5, IOBots::bot.pos.y - 5, 10, 10};
-	SDL_RenderFillRect(renderer, &rect);
+	IOBots::bot.render(renderer);
 
 	SDL_RenderPresent(renderer);
 }

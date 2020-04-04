@@ -76,7 +76,6 @@ void Assembler::assemble(std::istream& in, std::vector<uint8_t>& out){
 					instructions->push_back(instruction);
 					currentByte += 2;
 				}else{
-
 					//Get opcode for instruction
 					for (uint8_t i = 0; i < (sizeof(INSTRUCTIONS) / sizeof(INSTRUCTIONS[0])); i++) {
 						if (instructionString == INSTRUCTIONS[i]) instruction.opcode = i;

@@ -17,7 +17,7 @@ int main(int argc, char* argv[]){
 	std::ifstream in(argv[1]);
 		
 	if(in.is_open()){
-        std::cout << "Assembling assembly.asm..." << std::endl;
+        std::cout << "Assembling movementexample.asm..." << std::endl;
 		Assembler::assemble(in, out);
 		in.close();
 		IOBots::bot.loadProgram(out);

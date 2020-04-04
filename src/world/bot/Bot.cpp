@@ -10,6 +10,7 @@
 #include "../World.hpp"
 #include <vector>
 #include <cstring>
+#include <world/bot/hardware/KeyboardHardware.h>
 
 #include "Assembler.hpp"
 #include "hardware/StorageHardware.hpp"
@@ -23,6 +24,7 @@ Bot::Bot(int memSize) {
     this->pos.y = 0;
     addHardware(new StorageHardware(0x10000));
     addHardware(new MovementHardware);
+    addHardware(new KeyboardHardware);
 }
 
 Bot::Bot(uint8_t *buffer, size_t buffer_size) {
@@ -121,30 +123,13 @@ void Bot::interrupt(uint16_t interrupt) {
     //If insead of switch for separate scopes
     if(interrupt == 0x0) { //Print debug info
         std::cout << *this << std::endl;
-    }else if(interrupt == 0x1){ //Hardware Query
-        A = static_cast<uint16_t>(numHardware);
-        uint16_t currentPointer = HARDWARE_QUERY_OFFSET;
-        for(auto& hardware : hardwareSlots){
-            if(hardware != nullptr){
-                /**
-                 * Since things are stored in little endian, when read by the program, the low byte will be the
-                 * HWID and the high byte will be the slot. (0xSSHH where S is slot and H is HWID)
-                 */
-                uint16_t infoStruct = hardware->getHardwareID();
-                infoStruct += hardware->getAttachedPort() << 8;
-                setMemWord(currentPointer, infoStruct);
-                currentPointer += 2;
-            }
-        }
-    }else if(interrupt == 0x2){ //Hardware Interrupt
-        if(hardwareSlots[A] != nullptr)
-            hardwareSlots[A]->interrupt();
+    } else if(hardwareSlots[interrupt] != nullptr){ //Call a hardware interrupt if it exists
+        hardwareSlots[interrupt]->interrupt();
+    }
 #if IOBOTS_DEBUG
         else
             std::cerr << "nullptr hardware called (0x" << std::hex << A << ")" << std::endl;
-        std::cout << "Hardware interrupt in slot 0x" << std::hex << A << " called" << std::endl;
 #endif
-    }
 }
 
 uint16_t Bot::move(uint16_t steps) {
@@ -169,19 +154,13 @@ uint16_t Bot::move(uint16_t steps) {
 }
 
 bool Bot::addHardware(Hardware* hardware){
-    if(numHardware < 256){
-        for(int i = 0; i < 256; i++){
-            if(hardwareSlots[i] == nullptr){
-                hardwareSlots[i] = hardware;
-                numHardware++;
-                hardware->setAttachedBot(this, static_cast<uint8_t>(i));
-                return true;
-            }
-        }
-        std::cerr << "Warning: numHardware was innacurate." << std::endl;
-        return false; //This should never happen, but just in case
+    if(hardwareSlots[hardware->getHardwareID()] == nullptr){
+        hardwareSlots[hardware->getHardwareID()] = hardware;
+        numHardware++;
+        hardware->setAttachedBot(this, static_cast<uint8_t>(hardware->getHardwareID()));
+        return true;
     }
-    return false;
+    return false; //There was already a piece of hardware registered with that interrupt
 }
 
 bool Bot::removeHardware(uint8_t slot){
@@ -192,6 +171,10 @@ bool Bot::removeHardware(uint8_t slot){
         return true;
     }
     return false;
+}
+
+Hardware* Bot::getHardware(uint8_t slot) {
+    return hardwareSlots[slot];
 }
 
 void Bot::push(uint16_t word){
@@ -285,6 +268,28 @@ bool Bot::deserialize(uint8_t* buffer, size_t buffer_size) {
     }
 
     return true;
+}
+
+void Bot::render(SDL_Renderer *renderer) {
+    SDL_SetRenderDrawColor(renderer, 200, 50, 50, 200);
+    SDL_Rect rect = {pos.x - 5, pos.y - 5, 10, 10};
+    SDL_RenderFillRect(renderer, &rect);
+
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    switch(heading) {
+        case NORTH:
+            SDL_RenderDrawLine(renderer, pos.x, pos.y, pos.x, pos.y + 5);
+            break;
+        case SOUTH:
+            SDL_RenderDrawLine(renderer, pos.x, pos.y, pos.x, pos.y - 5);
+            break;
+        case EAST:
+            SDL_RenderDrawLine(renderer, pos.x, pos.y, pos.x + 5, pos.y);
+            break;
+        case WEST:
+            SDL_RenderDrawLine(renderer, pos.x, pos.y, pos.x - 5, pos.y);
+            break;
+    }
 }
 
 std::ostream& operator<<(std::ostream& os, Bot& bot){

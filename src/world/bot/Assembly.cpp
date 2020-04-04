@@ -4,8 +4,7 @@
 
 #include <stdexcept>
 #include <iostream>
-#include "../../util/Util.hpp"
-#include "../../flags.hpp"
+#include "util/Util.hpp"
 #include "Bot.hpp"
 #include "Assembly.hpp"
 

@@ -13,10 +13,18 @@ public:
 	static Renderer renderer;
 	static Bot bot;
 	static double deltaTime;
+
+	///Starts the game.
 	static void start();
 private:
-	static bool pollEvents(); //Returns false if the game should quit
-	static void loop();
+    ///The main game loop that runs every frame.
+    static void loop();
+
+    /**
+     * Runs every loop to poll and handle SDL events.
+     * @return Returns false if the game should quit.
+     */
+	static bool pollEvents();
 };
 
 #endif //IOBOTS_IOBOTS_HPP
